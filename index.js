@@ -16,7 +16,7 @@ app.use(express.static('public'));
 app.get("/api/:pdate?", function(req, res) {
   const { pdate } = req.params;
   console.log(pdate);
-  const myDate = pdate? new Date(pdate) : new Date();
+  const myDate = pdate? isNaN(pdate) ? new Date(pdate) : new Date(+pdate) : new Date();
   if (myDate.toString() === 'Invalid Date') {
     res.json({
       error : "Invalid Date"
