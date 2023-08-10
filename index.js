@@ -13,10 +13,27 @@ app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 20
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+app.get("/api/:pdate?", function(req, res) {
+  const { pdate } = req.params;
+  console.log(pdate);
+  const myDate = pdate? new Date(pdate) : new Date();
+  if (myDate.toString() === 'Invalid Date') {
+    res.json({
+      error : "Invalid Date"
+    })
+  }
+  res.json({
+    "unix":myDate.valueOf(),
+    "utc":myDate.toUTCString()
+  })
+})
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
+
+
 
 
 // your first API endpoint... 
